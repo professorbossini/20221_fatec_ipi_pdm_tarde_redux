@@ -28,5 +28,31 @@ const solicitarCashback = (nome, valor) => {
             nome, valor
         }
     }
-
 }
+
+//essa é uma reducer
+const historicoDePedidosDeCashbackReducer = (historicoDePedidosDeCashbackAtual = [], acao) => {
+    if (acao.type === "SOLICITAR_CASHBACK"){
+        return [
+            ...historicoDePedidosDeCashbackAtual,
+            acao.payload    
+        ]
+    }
+    return historicoDePedidosDeCashbackAtual
+}
+
+//essa é uma outra função reducer
+const caixaReducer = (dinheiroEmCaixa = 0, acao) => {
+    //se a ação for SOLICITAR_CASHBACK, reduzir o valor do caixa
+    if (acao.type === "SOLICITAR_CASHBACK"){
+        dinheiroEmCaixa -= acao.payload.valor
+    }
+    //senão se a ação for CRIAR_CONTRATO, aumentar o valor do caixa
+    else if (acao.type == "CRIAR_CONTRATO"){
+        dinheiroEmCaixa += acao.payload.taxa
+    }
+    //senão, somente devolver a fatia de estado envolvida
+    return dinheiroEmCaixa
+}
+
+
